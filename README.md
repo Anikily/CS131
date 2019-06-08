@@ -8,3 +8,5 @@ Notes are from :<https://github.com/StanfordVL/cs131_notes>
 
 Homework:<https://github.com/StanfordVL/CS131_release>
 
+now,hw0 are done.
+
