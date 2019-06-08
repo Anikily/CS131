@@ -18,13 +18,13 @@ def load(image_path):
     """
     out = None
 
-    ### YOUR CODE HERE
-    # Use skimage io.imread
-    pass
-    ### END YOUR CODE
+    out = Image.open(image_path)
+    out = np.array(out)
 
     # Let's convert the image to be between the correct range.
+    print(f'before div,the mean of img is {out.mean()}')
     out = out.astype(np.float64) / 255
+    print(f'after div,the mean of img is {out.mean()}')
     return out
 
 
@@ -44,9 +44,7 @@ def dim_image(image):
 
     out = None
 
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
+    out = (image**2)*0.5
 
     return out
 
@@ -65,9 +63,7 @@ def convert_to_grey_scale(image):
     """
     out = None
 
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
+    out = color.rgb2grey(image)
 
     return out
 
@@ -84,10 +80,11 @@ def rgb_exclusion(image, channel):
     """
 
     out = None
-
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
+    rgb = {'R':0,'G':1,'B':2}
+    out = image
+    #astype for deepcopy
+    out = out.astype(np.float64)
+    out[:,:,rgb[channel]] = 0
 
     return out
 
@@ -105,10 +102,9 @@ def lab_decomposition(image, channel):
 
     lab = color.rgb2lab(image)
     out = None
-
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
+    lab_ = {'L':0,'A':1,'B':2}
+    out = image-0
+    out[:,:,lab_[channel]] = 0
 
     return out
 
@@ -126,10 +122,10 @@ def hsv_decomposition(image, channel='H'):
 
     hsv = color.rgb2hsv(image)
     out = None
-
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
+    hsv_ = {'H':0,'S':1,'V':2}
+    mat = np.array([[0,1,1],[1,0,1],[1,1,0]]).astype(np.float)
+    
+    out = hsv*mat[hsv_[channel]]
 
     return out
 
@@ -153,10 +149,12 @@ def mix_images(image1, image2, channel1, channel2):
     """
 
     out = None
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
-
+    img1 = rgb_exclusion(image1,'R')
+    img2 = rgb_exclusion(image2,'G')
+    h,w,c = img1.shape
+    out = np.zeros_like(img1)
+    out[:,:w//2,:] = img1[:,:w//2,:]
+    out[:,w//2:,:] = img2[:,w//2:,:]
     return out
 
 
@@ -182,8 +180,14 @@ def mix_quadrants(image):
     """
     out = None
 
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
+    out = np.zeros_like(image)
+    h,w,_ = out.shape
+    h,w = h//2,w//2
+    out[0:h,0:w,:] = rgb_exclusion(image,'R')[0:h,0:w,:]
+    out[0:h,w:,:] = dim_image(image)[0:h,w:,:]
+    out[h:,0:w,:] = (image**(0.5))[h:,0:w,:]
+    out[h:,w:,:] = rgb_exclusion(image,'R')[h:,w:,:] 
+    
+    
 
     return out

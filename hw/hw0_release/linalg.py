@@ -15,10 +15,9 @@ def dot_product(a, b):
         out: numpy array of shape (x, x) (scalar if x = 1)
     """
     out = None
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
-    return out
+    
+
+    return a.dot(b)
 
 
 def complicated_matrix_function(M, a, b):
@@ -36,11 +35,9 @@ def complicated_matrix_function(M, a, b):
         out: numpy matrix of shape (x, 1).
     """
     out = None
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
+    
 
-    return out
+    return a.dot(b)*(M.dot(a))
 
 
 def svd(M):
@@ -60,11 +57,9 @@ def svd(M):
     u = None
     s = None
     v = None
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
+    
 
-    return u, s, v
+    return np.linalg.svd(M)
 
 
 def get_singular_values(M, k):
@@ -72,6 +67,8 @@ def get_singular_values(M, k):
 
     (optional): Use the `svd(M)` function you wrote above
     as a helper function.
+    function of numpy to SVD is 
+    U,Sigma,V = np.linalg.svd(M,full_matrices=False)
 
     Args:
         M: numpy matrix of shape (m, n).
@@ -81,10 +78,8 @@ def get_singular_values(M, k):
         singular_values: array of shape (k)
     """
     singular_values = None
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
-    return singular_values
+    u,s,v = svd(M)
+    return s[:k]
 
 
 def eigen_decomp(M):
@@ -92,6 +87,8 @@ def eigen_decomp(M):
 
     Args:
         matrix: numpy matrix of shape (m, n)
+        function of numpy to ED is 
+        U,S = np.linalg.eig(M)
 
     Returns:
         w: numpy array of shape (m, m) such that the column v[:,i] is the eigenvector corresponding to the eigenvalue w[i].
@@ -99,9 +96,7 @@ def eigen_decomp(M):
     """
     w = None
     v = None
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
+    w,v = np.linalg.eig(M)
     return w, v
 
 
@@ -123,7 +118,5 @@ def get_eigen_values_and_vectors(M, k):
     """
     eigenvalues = []
     eigenvectors = []
-    ### YOUR CODE HERE
-    pass
-    ### END YOUR CODE
-    return eigenvalues, eigenvectors
+    
+    return eigen_decomp(M)
