@@ -102,9 +102,10 @@ def lab_decomposition(image, channel):
 
     lab = color.rgb2lab(image)
     out = None
-    lab_ = {'L':0,'A':1,'B':2}
-    out = image-0
-    out[:,:,lab_[channel]] = 0
+    hsv_ = {'L':0,'A':1,'B':2}
+    mat = np.array([[1,0,0],[0,1,0],[0,0,1]]).astype(np.float)
+    
+    out = lab*mat[hsv_[channel]]
 
     return out
 
@@ -123,7 +124,7 @@ def hsv_decomposition(image, channel='H'):
     hsv = color.rgb2hsv(image)
     out = None
     hsv_ = {'H':0,'S':1,'V':2}
-    mat = np.array([[0,1,1],[1,0,1],[1,1,0]]).astype(np.float)
+    mat = np.array([[1,0,0],[0,1,0],[0,0,1]]).astype(np.float)
     
     out = hsv*mat[hsv_[channel]]
 
